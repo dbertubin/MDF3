@@ -26,12 +26,20 @@
         android:layout_toRightOf="@+id/backButton"
         android:text="@string/forward" />
 
+    <Button
+        android:id="@+id/goButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/go" />
+
     <LinearLayout
         android:id="@+id/linlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/backButton"
-        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/goButton"
         android:layout_alignTop="@+id/goButton"
         android:orientation="vertical" >
 
@@ -39,34 +47,17 @@
             android:id="@+id/editText1"
             android:layout_width="282dp"
             android:layout_height="wrap_content"
-            android:ems="10" 
-            android:inputType="textWebEditText"
+            android:ems="10"
             android:hint="@string/web_address"
-            />
+            android:imeOptions="actionDone"
+            android:inputType="textWebEditText" >
+            <requestFocus />
+        </EditText>
 
         <WebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="368dp" />
-
+            android:layout_height="451dp" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/stopButton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/linlay"
-        android:text="@string/stop" />
-
-    <Button
-        android:id="@+id/goButton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/linlay"
-        android:text="@string/go" />
 
 </RelativeLayout>
