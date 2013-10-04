@@ -1,5 +1,8 @@
 package com.petrockz.rockzib;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
@@ -25,6 +28,8 @@ public class MainActivity extends Activity {
 	
 	EditText _urlEditText;
 	WebView _webView;
+	
+	String _url;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,15 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Log.i("Go", "was hit");
+				Log.i("Go", "was hit");				
+			
+				_url = _urlEditText.getText().toString();
+			
+				if (!_url.contains("http://"))
+					_url = "http://" + _url;
+				_webView.loadUrl(_url);
+				
+//				Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
 			}
 		});
 		
