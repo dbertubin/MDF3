@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-@SuppressLint("SetJavaScriptEnabled")
+
 public class MainActivity extends Activity {
 
 	Button _backButton;
@@ -32,49 +32,53 @@ public class MainActivity extends Activity {
 
 	String _url;
 	String _passedUrl = new String();
-	
+
 	Context _context;
 
+	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		// WebView Set Up 
+		_webView = (WebView) findViewById(R.id.webView);
+
+		// Enable JS 
+		_webView.getSettings().setJavaScriptEnabled(true);
+
+
+
+		// Allows for internal handling of urls 
+		_webView.setWebViewClient(new RockzIBWebViewClient());
+
 		_context = this; 
-		
+
 		Intent intent  = getIntent();
 		Uri data = intent.getData();
-		
+
 		if (data != null) {
 			_passedUrl = data.toString();
 			Log.i("Data", data.toString());
+		} else {
+			// Loads default url 
+			_webView.loadUrl("http://www.google.com");
 		}
+
 
 		if (_passedUrl.startsWith("http")) {
 			_webView.loadUrl(_passedUrl);
 		} else {
 			Toast.makeText(MainActivity.this,"This didnt work", Toast.LENGTH_SHORT).show();
 		}
-		
-	
-		
+
+
+
 		_urlEditText = (EditText) findViewById(R.id.editText1);
 
-		
-		// WebView Set Up 
-				_webView = (WebView) findViewById(R.id.webView);
 
-				// Enable JS 
-				_webView.getSettings().setJavaScriptEnabled(true);
 
-				// Loads default url 
-				_webView.loadUrl("http://www.google.com");
 
-				// Allows for internal handling of urls 
-				_webView.setWebViewClient(new RockzIBWebViewClient());
-
-		
-		
 
 		// BACK BUTTON 
 		_backButton = (Button) findViewById(R.id.backButton);
@@ -94,7 +98,7 @@ public class MainActivity extends Activity {
 		// FORWARD BUTTON 
 		_fwButton = (Button) findViewById(R.id.fwButton);
 		_fwButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -104,8 +108,8 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
-		
-	
+
+
 		// GO BUTTON 
 		_goButton = (Button) findViewById(R.id.goButton);
 		_goButton.setOnClickListener(new OnClickListener() {
@@ -117,8 +121,8 @@ public class MainActivity extends Activity {
 
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(_urlEditText.getWindowToken(), 0);
-				
-				
+
+
 				// grab string from edit text 
 				_url = _urlEditText.getText().toString();
 
@@ -128,12 +132,12 @@ public class MainActivity extends Activity {
 
 				// load url if good 
 				_webView.loadUrl(_url);
-					
+
 			}
 		});
 
-		
-		
+
+
 	}
 
 	// Allows for internal handling of urls 
