@@ -1,12 +1,12 @@
 package com.petrockz.rockzib;
 
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends Activity {
@@ -30,6 +31,7 @@ public class MainActivity extends Activity {
 	WebView _webView;
 
 	String _url;
+	String _passedUrl = new String();
 	
 	Context _context;
 
@@ -39,9 +41,22 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		_context = this; 
-		Intent intent = getIntent();
+		
+		Intent intent  = getIntent();
 		Uri data = intent.getData();
+		
+		if (data != null) {
+			_passedUrl = data.toString();
+			
+		}
 
+		if (_passedUrl.startsWith("http")) {
+			_webView.loadUrl(_passedUrl);
+		} else {
+			Toast.makeText(MainActivity.this,"This didnt work", Toast.LENGTH_SHORT).show();
+		}
+		
+	
 		
 		_urlEditText = (EditText) findViewById(R.id.editText1);
 
@@ -108,7 +123,7 @@ public class MainActivity extends Activity {
 				_url = _urlEditText.getText().toString();
 
 				// check to see if string contains url prefix and add if not 
-				if (!_url.contains("http://"))
+				if (!_url.startsWith("http"))
 					_url = "http://" + _url;
 
 				// load url if good 
@@ -117,6 +132,8 @@ public class MainActivity extends Activity {
 			}
 		});
 
+		
+		
 	}
 
 	// Allows for internal handling of urls 
