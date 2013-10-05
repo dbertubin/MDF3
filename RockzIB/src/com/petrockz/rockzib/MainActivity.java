@@ -43,33 +43,33 @@ public class MainActivity extends Activity {
 
 		_context = this; 
 		
-		// WebView Set Up 
+		// WEBVIEW SETUP  
 		_webView = (WebView) findViewById(R.id.webView);
 
 		// Enable JS 
 		_webView.getSettings().setJavaScriptEnabled(true);
 
-		
+	
 		// Allows for internal handling of urls 
 		_webView.setWebViewClient(new RockzIBWebViewClient());
 
-			
+		_urlEditText = (EditText) findViewById(R.id.editText1);
+		
 		// Get intent from launching application 
 		Intent intent  = getIntent();
 		Uri data = intent.getData();
 
-		// null check 
+		// null check data 
 		if (data != null) {
 			
-			// convert to string 
+		// convert to string 
 			_passedUrl = data.toString();
 			Log.i("Data", data.toString());
 		} else {
 			
-			// Loads default url if data is null on initail launch 
+		// Loads default url if data is null on initial launch 
 			_webView.loadUrl("http://www.google.com");
 		}
-
 
 		if (_passedUrl.startsWith("http")) {
 			_webView.loadUrl(_passedUrl);
@@ -77,14 +77,7 @@ public class MainActivity extends Activity {
 			Toast.makeText(MainActivity.this,"This didnt work", Toast.LENGTH_SHORT).show();
 		}
 
-
-
-		_urlEditText = (EditText) findViewById(R.id.editText1);
-
-
-
-
-
+	
 		// BACK BUTTON 
 		_backButton = (Button) findViewById(R.id.backButton);
 
@@ -140,9 +133,6 @@ public class MainActivity extends Activity {
 
 			}
 		});
-
-
-
 	}
 
 	// Allows for internal handling of urls 
@@ -153,8 +143,6 @@ public class MainActivity extends Activity {
 			webview.loadUrl(url);
 			return true;
 		}
-
-
 	}
 
 	// Checking for Native Back Button navigation 
