@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
 		
 		if (data != null) {
 			_passedUrl = data.toString();
-			
+			Log.i("Data", data.toString());
 		}
 
 		if (_passedUrl.startsWith("http")) {
