@@ -41,27 +41,32 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		_context = this; 
+		
 		// WebView Set Up 
 		_webView = (WebView) findViewById(R.id.webView);
 
 		// Enable JS 
 		_webView.getSettings().setJavaScriptEnabled(true);
 
-
-
+		
 		// Allows for internal handling of urls 
 		_webView.setWebViewClient(new RockzIBWebViewClient());
 
-		_context = this; 
-
+			
+		// Get intent from launching application 
 		Intent intent  = getIntent();
 		Uri data = intent.getData();
 
+		// null check 
 		if (data != null) {
+			
+			// convert to string 
 			_passedUrl = data.toString();
 			Log.i("Data", data.toString());
 		} else {
-			// Loads default url 
+			
+			// Loads default url if data is null on initail launch 
 			_webView.loadUrl("http://www.google.com");
 		}
 
