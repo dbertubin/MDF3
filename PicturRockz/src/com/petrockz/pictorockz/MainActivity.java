@@ -28,4 +28,8 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	
+	// http://developer.android.com/guide/topics/media/camera.html#custom-camera
+	
+	
 }
