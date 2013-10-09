@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="@string/enter_zip_code_here_"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip" >
+
+                <requestFocus />
+            </EditText>
+
+            <Button
+                android:id="@+id/getGps"
+                android:layout_width="104dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.07"
+                android:text="Location" />
+
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/startButton"
+            style="@style/ButtonText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:paddingTop="20dip"
+            android:text="@string/getButtonText" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="230dp" >
+
+        <GridLayout
+            android:id="@+id/currentData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:fillViewport="true"
+            android:paddingLeft="10dip"
+            android:paddingTop="10dip" >
+
+            <TextView
+                style="@style/ResultLabels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location" />
+
+            <TextView
+                android:id="@+id/data_location"
+                style="@style/ResultText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:freezesText="true" />
+
+            <TextView
+                style="@style/ResultLabels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description_label" />
+
+            <ImageView
+                android:id="@+id/weatherDesc"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/weatherdesc" />
+
+            <TextView
+                style="@style/ResultLabels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tempf_label" />
+
+            <TextView
+                android:id="@+id/data_tempF"
+                style="@style/ResultText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:freezesText="true" />
+
+            <TextView
+                style="@style/ResultLabels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/humidity_label" />
+
+            <TextView
+                android:id="@+id/data_humidity"
+                style="@style/ResultText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:freezesText="true" />
+
+            <TextView
+                style="@style/ResultLabels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wind_speed_label" />
+
+            <TextView
+                android:id="@+id/data_windSpeed"
+                style="@style/ResultText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:freezesText="true" />
+
+            <TextView
+                style="@style/ResultLabels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wind_direction_label" />
+
+            <TextView
+                android:id="@+id/data_windDirection"
+                style="@style/ResultText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:freezesText="true" />
+        </GridLayout>
+    </ScrollView>
+
+    <LinearLayout
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/viewFav"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.34"
+            android:text="@string/view_favorites" />
+
+        <Button
+            android:id="@+id/saveFav"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.32"
+            android:text="@string/save_favorite" />
+
+        <Button
+            android:id="@+id/show"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:text="@string/show_on_map" />
+    </LinearLayout>
+
+</LinearLayout>
