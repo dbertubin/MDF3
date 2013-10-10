@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/shower2"
@@ -59,6 +60,7 @@
         <activity
             android:name="MainActivity"
             android:windowSoftInputMode="stateHidden" >
+            <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
         </activity>
     </application>
 

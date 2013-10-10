@@ -34,7 +34,8 @@ import com.petrockz.climacast.FormFragment.FormListener;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,7 +51,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.res.AssetFileDescriptor;
 import android.widget.ImageView;
 import android.text.InputType;
 import android.util.Log;
@@ -436,26 +436,72 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	private void netCon(){
 
-		_connected = NetworkConnection.getConnectionStatus(_context);
-		if (_connected) {
-			Log.i("NETWORK CONNECTION", NetworkConnection.getConnectionType(_context));
+		ConnectivityManager connMgr = (ConnectivityManager) 
+		        getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI); 
+		boolean isWifiConn = networkInfo.isConnected();
+		networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		boolean isMobileConn = networkInfo.isConnected();
+		Log.d("DEBUG_TAG", "Wifi connected: " + isWifiConn);
+		Log.d("DEBUG_TAG", "Mobile connected: " + isMobileConn);
+		
+		
+		if (!isMobileConn) {
+			// AlertDialog if not MOBLILE is not connected
+						AlertDialog.Builder alert = new AlertDialog.Builder(_context);
+						alert.setTitle("Hello!");
+						alert.setMessage("We noticed that you do not have mobile data enabled on this device. To use this applicaiton independant of Wi-Fi, please enable your data connection");
+						alert.setCancelable(false);
+						alert.setPositiveButton("Ok, Thank you", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialogInterface, int i) {
+								dialogInterface.cancel();
+							}
+						});
+						alert.show();
+		}
+		
+		if (!isWifiConn) {
+			// AlertDialog if not MOBLILE is not connected
+						AlertDialog.Builder alert = new AlertDialog.Builder(_context);
+						alert.setTitle("Hello!");
+						alert.setMessage("We noticed that you do not have Wi-fi enabled or are not connected to a Wi-fi on this device. To save data usage, please enable your Wi-Fi connection");
+						alert.setCancelable(false);
+						alert.setPositiveButton("Ok, Thank you", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialogInterface, int i) {
+								dialogInterface.cancel();
+							}
+						});
+						alert.show();
+		}
+		
+		
+		
+		if (isMobileConn || isWifiConn) {
+			_connected = NetworkConnection.getConnectionStatus(_context);
+			if (_connected) {
+				Log.i("NETWORK CONNECTION",
+						NetworkConnection.getConnectionType(_context));
 
-		} else{
+			} else {
 
-			// AlertDialog if not connected
-			AlertDialog.Builder alert = new AlertDialog.Builder(_context);
-			alert.setTitle("Oops!");
-			alert.setMessage("Please check your network connection and try again.");
-			alert.setCancelable(false);
-			alert.setPositiveButton("Hiyah!", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialogInterface, int i) {
-					dialogInterface.cancel();
-				}
-			});
-			alert.show();
+				// AlertDialog if not connected
+				AlertDialog.Builder alert = new AlertDialog.Builder(_context);
+				alert.setTitle("Oops!");
+				alert.setMessage("Please check your network connection and try again.");
+				alert.setCancelable(false);
+				alert.setPositiveButton("Hiyah!",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(
+									DialogInterface dialogInterface, int i) {
+								dialogInterface.cancel();
+							}
+						});
+				alert.show();
 
-
+			}
 		}		 
 	}
 
@@ -576,35 +622,35 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	// GPS Method 
 	public void getZipFromGPS() {
 //		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
+		netCon();
+		if (_connected) {
+			// Grab Location from location client 
+			mCurrentLocation = mLocationClient.getLastLocation();
+			Log.i("TAG", mCurrentLocation.toString());
+			// Convert lat/long into an actual address 
+			Geocoder geocoder = new Geocoder(_context, Locale.getDefault());
+			List<Address> addresses = null;
+			try {
+				/*
+				 * Return 1 address.
+				 */
+				addresses = geocoder.getFromLocation(
+						mCurrentLocation.getLatitude(),
+						mCurrentLocation.getLongitude(), 1);
+			} catch (IOException e1) {
+				Log.e("LocationSampleActivity",
+						"IO Exception in getFromLocation()");
+				e1.printStackTrace();
+			}
+			Log.i("ADDRESS IS", addresses.toString());
+			// Assign the returned Value from getPostalCode in the address to _zip
+			_zip = addresses.get(0).getPostalCode();
+			// Set the string into the _inputText 
+			_inputText.setText(_zip);
+		} else {
+			
 
-		// Grab Location from location client 
-		mCurrentLocation = mLocationClient.getLastLocation();
-
-
-		Log.i("TAG", mCurrentLocation.toString());
-
-		// Convert lat/long into an actual address 
-		Geocoder geocoder =
-				new Geocoder(_context, Locale.getDefault());	
-		List<Address> addresses = null;
-		try {
-			/*
-			 * Return 1 address.
-			 */
-			addresses = geocoder.getFromLocation(mCurrentLocation.getLatitude(),
-					mCurrentLocation.getLongitude(), 1);
-		} catch (IOException e1) {
-			Log.e("LocationSampleActivity",
-					"IO Exception in getFromLocation()");
-			e1.printStackTrace();	
 		}
-		Log.i("ADDRESS IS" , addresses.toString());
-
-		// Assign the returned Value from getPostalCode in the address to _zip
-		_zip = addresses.get(0).getPostalCode();
-
-		// Set the string into the _inputText 
-		_inputText.setText(_zip);
 	}
 
 
@@ -667,6 +713,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private boolean servicesConnected() {
 		// Check that Google Play services is available
 		int resultCode =
@@ -756,8 +803,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 	
-
-	
 	
 
+		
 }
