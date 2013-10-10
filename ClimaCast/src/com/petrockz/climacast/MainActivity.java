@@ -115,7 +115,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	String _formattedDateAdd3;
 	String _formattedDateAdd4;
 	
-	MediaPlayer _player;
+	
 
 
 	// LOCATION VARS
@@ -146,22 +146,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		_favorites = getFavs();
 
 		
-		AssetFileDescriptor afd;
-		try {
-			// Read the music file from the asset folder
-			afd = getAssets().openFd("thunder.mp3");
-			// Creation of new media _player;
-			_player = new MediaPlayer();
-			// Set the _player music source.
-			_player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(),afd.getLength());
-			// Set the looping and play the music.
-		 
-			_player.prepare();
-			_player.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-			Log.e("AFD ERROR", e.toString());
-		}
+		
 
 		
 		
@@ -317,14 +302,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		super.onStop();
 		
 	}
-
-//	public void onPause() {
-//		super.onPause();
-////		_player.pause();
-//		
-//		_player.release();
-//		_player = null;
-//		}
 
 	
 	
@@ -598,7 +575,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	// GPS Method 
 	public void getZipFromGPS() {
-		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
 
 		// Grab Location from location client 
 		mCurrentLocation = mLocationClient.getLastLocation();
@@ -738,7 +715,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	@Override
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
-		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
 	}
 
 
