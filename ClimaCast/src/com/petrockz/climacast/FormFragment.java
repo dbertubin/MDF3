@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class FormFragment extends Fragment {
 
@@ -23,6 +24,7 @@ public class FormFragment extends Fragment {
 	Button _saveFavButton;
 	Button _viewFavButton;
 	Button _showMapButton;
+	Button _getGPS;
 	EditText _inputText;
 	String _zip;
 	
@@ -33,6 +35,9 @@ public class FormFragment extends Fragment {
 		public void saveFavorite(String zip);
 		public void viewFavorites();
 		public void showMap(String zip);
+		public void toastIT(); 
+			
+	
 		
 	}
 	
@@ -58,6 +63,18 @@ public class FormFragment extends Fragment {
 					listener.saveFavorite(_zip);
 					
 				}	
+			});
+			
+			
+			/// GET GPS 
+			_getGPS = (Button) view.findViewById(R.id.getGps);
+			_getGPS.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					listener.toastIT();
+				}
 			});
 			
 			

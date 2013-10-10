@@ -10,11 +10,14 @@
 package com.petrockz.climacast;
 
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +31,8 @@ import com.petrockz.chucknorris.lib.NetworkConnection;
 import com.petrockz.climacast.FavoritesFragment.FavoritesListener;
 import com.petrockz.climacast.FormFragment.FormListener;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -73,6 +78,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	Button _saveFavButton;
 	Button _viewFavButton;
 	Button _showMapButton;
+	Button _getGPS; 
+	
 	EditText _inputText;
 	GridLayout _resultsGrid;
 	GridLayout _5dayGrid;
@@ -161,6 +168,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 
 	}
+	
+	
 
 
 	@Override
@@ -549,6 +558,34 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			Toast.makeText(_context, R.string.enter_a_valid_zip_code_, Toast.LENGTH_SHORT).show();
 		}
 
+	}
+	
+	public void toastIT() {
+		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
+		
+	   
+	    mCurrentLocation = mLocationClient.getLastLocation();
+	    
+	    Log.i("TAG", mCurrentLocation.toString());
+	    Geocoder geocoder =
+                new Geocoder(_context, Locale.getDefault());	
+	    List<Address> addresses = null;
+	    try {
+            /*
+             * Return 1 address.
+             */
+            addresses = geocoder.getFromLocation(mCurrentLocation.getLatitude(),
+            		mCurrentLocation.getLongitude(), 1);
+        } catch (IOException e1) {
+        Log.e("LocationSampleActivity",
+                "IO Exception in getFromLocation()");
+        e1.printStackTrace();	
+        }
+	    Log.i("ADDRESS IS" , addresses.toString());
+	    
+	    _zip = addresses.get(0).getPostalCode();
+	    
+	    _inputText.setText(_zip);
 	}
 
 
