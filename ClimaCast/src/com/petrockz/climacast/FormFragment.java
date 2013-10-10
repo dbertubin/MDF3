@@ -35,7 +35,7 @@ public class FormFragment extends Fragment {
 		public void saveFavorite(String zip);
 		public void viewFavorites();
 		public void showMap(String zip);
-		public void toastIT(); 
+		public void getZipFromGPS(); 
 			
 	
 		
@@ -73,7 +73,7 @@ public class FormFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					listener.toastIT();
+					listener.getZipFromGPS();
 				}
 			});
 			

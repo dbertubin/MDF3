@@ -34,8 +34,7 @@ import com.petrockz.climacast.FormFragment.FormListener;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,6 +50,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.res.AssetFileDescriptor;
 import android.widget.ImageView;
 import android.text.InputType;
 import android.util.Log;
@@ -79,7 +79,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	Button _viewFavButton;
 	Button _showMapButton;
 	Button _getGPS; 
-	
+
 	EditText _inputText;
 	GridLayout _resultsGrid;
 	GridLayout _5dayGrid;
@@ -115,7 +115,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	String _formattedDateAdd3;
 	String _formattedDateAdd4;
 	
-	
+	MediaPlayer _player;
+
+
 	// LOCATION VARS
 	LocationClient mLocationClient;
 	Location mCurrentLocation;
@@ -143,14 +145,35 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		spinnerSelector();
 		_favorites = getFavs();
 
+		
+		AssetFileDescriptor afd;
+		try {
+			// Read the music file from the asset folder
+			afd = getAssets().openFd("thunder.mp3");
+			// Creation of new media _player;
+			_player = new MediaPlayer();
+			// Set the _player music source.
+			_player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(),afd.getLength());
+			// Set the looping and play the music.
+		 
+			_player.prepare();
+			_player.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.e("AFD ERROR", e.toString());
+		}
+
+		
+		
+		
 
 		/*
-         * Create a new location client, using the enclosing class to
-         * handle callbacks.
-         */
-        mLocationClient = new LocationClient(this, this, this);
-		
-		
+		 * Create a new location client, using the enclosing class to
+		 * handle callbacks.
+		 */
+		mLocationClient = new LocationClient(this, this, this);
+
+
 
 		/// GET WEATHER 
 
@@ -168,8 +191,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 
 	}
-	
-	
+
+
 
 
 	@Override
@@ -195,7 +218,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
-
+	
 
 
 	private void spinnerSelector() {
@@ -281,26 +304,38 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 
 	@Override
-    protected void onStart() {
-        super.onStart();
-        // Connect the client.
-        mLocationClient.connect();
-    }
-	
+	protected void onStart() {
+		super.onStart();
+		// Connect the client.
+		mLocationClient.connect();
+	}
+
 	@Override
-    protected void onStop() {
-        // Disconnecting the client invalidates it.
-        mLocationClient.disconnect();
-        super.onStop();
-    }
+	protected void onStop() {
+		// Disconnecting the client invalidates it.
+		mLocationClient.disconnect();
+		super.onStop();
+		
+	}
 
+//	public void onPause() {
+//		super.onPause();
+////		_player.pause();
+//		
+//		_player.release();
+//		_player = null;
+//		}
 
+	
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		_favorites = getFavs();
 		String getString = getIntent().getStringExtra("item");
 		_inputText.setText(getString);
+//		_player.start();
+	
 	}
 
 
@@ -494,7 +529,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private void displayData(){
 
 		TextView temp =	(TextView) findViewById(R.id.data_tempF); 
-		temp.setText(_temp + " F¡");
+		temp.setText(_temp + " FÂ°");
 
 		TextView humid = (TextView) findViewById(R.id.data_humidity);
 		humid.setText(_humidity + "%");
@@ -559,33 +594,40 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		}
 
 	}
-	
-	public void toastIT() {
+
+
+	// GPS Method 
+	public void getZipFromGPS() {
 		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
-		
-	   
-	    mCurrentLocation = mLocationClient.getLastLocation();
-	    
-	    Log.i("TAG", mCurrentLocation.toString());
-	    Geocoder geocoder =
-                new Geocoder(_context, Locale.getDefault());	
-	    List<Address> addresses = null;
-	    try {
-            /*
-             * Return 1 address.
-             */
-            addresses = geocoder.getFromLocation(mCurrentLocation.getLatitude(),
-            		mCurrentLocation.getLongitude(), 1);
-        } catch (IOException e1) {
-        Log.e("LocationSampleActivity",
-                "IO Exception in getFromLocation()");
-        e1.printStackTrace();	
-        }
-	    Log.i("ADDRESS IS" , addresses.toString());
-	    
-	    _zip = addresses.get(0).getPostalCode();
-	    
-	    _inputText.setText(_zip);
+
+		// Grab Location from location client 
+		mCurrentLocation = mLocationClient.getLastLocation();
+
+
+		Log.i("TAG", mCurrentLocation.toString());
+
+		// Convert lat/long into an actual address 
+		Geocoder geocoder =
+				new Geocoder(_context, Locale.getDefault());	
+		List<Address> addresses = null;
+		try {
+			/*
+			 * Return 1 address.
+			 */
+			addresses = geocoder.getFromLocation(mCurrentLocation.getLatitude(),
+					mCurrentLocation.getLongitude(), 1);
+		} catch (IOException e1) {
+			Log.e("LocationSampleActivity",
+					"IO Exception in getFromLocation()");
+			e1.printStackTrace();	
+		}
+		Log.i("ADDRESS IS" , addresses.toString());
+
+		// Assign the returned Value from getPostalCode in the address to _zip
+		_zip = addresses.get(0).getPostalCode();
+
+		// Set the string into the _inputText 
+		_inputText.setText(_zip);
 	}
 
 
@@ -704,38 +746,41 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	public void onDisconnected() {
 		// TODO Auto-generated method stub
 		Toast.makeText(this, "Disconnected. Please re-connect.",
-                Toast.LENGTH_SHORT).show();
+				Toast.LENGTH_SHORT).show();
 	}
-	
+
 	/*
-     * Called by Location Services if the attempt to
-     * Location Services fails.
-     */
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        /*
-         * Google Play services can resolve some errors it detects.
-         * If the error has a resolution, try sending an Intent to
-         * start a Google Play services activity that can resolve
-         * error.
-         */
-        if (connectionResult.hasResolution()) {
-            try {
-                // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(
-                        this,
-                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
-                /*
-                 * Thrown if Google Play services canceled the original
-                 * PendingIntent
-                 */
-            } catch (IntentSender.SendIntentException e) {
-                // Log the error
-                e.printStackTrace();
-            }
-        } 
-    }
+	 * Called by Location Services if the attempt to
+	 * Location Services fails.
+	 */
+	@Override
+	public void onConnectionFailed(ConnectionResult connectionResult) {
+		/*
+		 * Google Play services can resolve some errors it detects.
+		 * If the error has a resolution, try sending an Intent to
+		 * start a Google Play services activity that can resolve
+		 * error.
+		 */
+		if (connectionResult.hasResolution()) {
+			try {
+				// Start an Activity that tries to resolve the error
+				connectionResult.startResolutionForResult(
+						this,
+						CONNECTION_FAILURE_RESOLUTION_REQUEST);
+				/*
+				 * Thrown if Google Play services canceled the original
+				 * PendingIntent
+				 */
+			} catch (IntentSender.SendIntentException e) {
+				// Log the error
+				e.printStackTrace();
+			}
+		} 
+	}
 
+	
 
+	
+	
 
 }
