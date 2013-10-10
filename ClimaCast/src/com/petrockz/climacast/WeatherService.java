@@ -23,6 +23,10 @@ import android.content.Context;
 
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WeatherService.
+ */
 public class WeatherService extends IntentService{
 
 	Context _context;
@@ -35,11 +39,17 @@ public class WeatherService extends IntentService{
 
 	public static final String FINALURL_KEY = "url";
 
+	/**
+	 * Instantiates a new weather service.
+	 */
 	public WeatherService() {
 		super("WeatherService");
 		_context = this;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.IntentService#onHandleIntent(android.content.Intent)
+	 */
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		Log.i("onHandleIntent", "Started");
@@ -80,6 +90,12 @@ public class WeatherService extends IntentService{
 
 	}
 
+	/**
+	 * Gets the response.
+	 *
+	 * @param url the url
+	 * @return the response
+	 */
 	private String getResponse(URL url) {
 		String response = null;
 		response = NetworkConnection.getURLStringResponse(url);

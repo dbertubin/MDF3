@@ -1,14 +1,33 @@
+/*
+ * project	ClimaCast
+ * 
+ * package 	com.petrockz.climacast
+ * 
+ * @author 	${author}
+ * 
+ * date 	Oct 10, 2013
+ */
 package com.petrockz.climacast;
 import android.util.Log;
 
 import com.petrockz.climacast.R;
 
+// TODO: Auto-generated Javadoc
 // The ImageConverter class acts as an adapter to convert the weatherDesc string to the corresponding image 
 
 
+/**
+ * The Class ImageConverter.
+ */
 public class ImageConverter {
 
 
+	/**
+	 * Gets the condition image.
+	 *
+	 * @param weatherDesc the weather desc
+	 * @return the condition image
+	 */
 	public static Integer getConditionImage (String weatherDesc) {
 		
 		Integer image = null;

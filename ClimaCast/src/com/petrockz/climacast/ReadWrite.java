@@ -1,3 +1,12 @@
+/*
+ * project	ClimaCast
+ * 
+ * package 	com.petrockz.climacast
+ * 
+ * @author 	${author}
+ * 
+ * date 	Oct 10, 2013
+ */
 package com.petrockz.climacast;
 
 import java.io.BufferedInputStream;
@@ -12,8 +21,21 @@ import java.io.ObjectOutputStream;
 import android.content.Context;
 import android.util.Log;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ReadWrite.
+ */
 public class ReadWrite {
 	// this might also be a the JAR 
+	/**
+	 * Store string file.
+	 *
+	 * @param context the context
+	 * @param fileName the file name
+	 * @param content the content
+	 * @param external the external
+	 * @return the boolean
+	 */
 	@SuppressWarnings("resource")
 	public static Boolean storeStringFile(Context context, String fileName, String content, Boolean external){
 		try {
@@ -35,6 +57,15 @@ public class ReadWrite {
 		
 	}
 	
+	/**
+	 * Store object file.
+	 *
+	 * @param context the context
+	 * @param fileName the file name
+	 * @param content the content
+	 * @param external the external
+	 * @return the boolean
+	 */
 	@SuppressWarnings("resource")
 	public static Boolean storeObjectFile(Context context, String fileName, Object content, Boolean external){
 		
@@ -63,6 +94,14 @@ public class ReadWrite {
 		
 	}
 	
+	/**
+	 * Read string file.
+	 *
+	 * @param context the context
+	 * @param fileName the file name
+	 * @param external the external
+	 * @return the string
+	 */
 	@SuppressWarnings("resource")
 	public static String readStringFile(Context context,String fileName, Boolean external){
 		String content ="";
@@ -100,6 +139,14 @@ public class ReadWrite {
 	}
 	
 	
+	/**
+	 * Read string object.
+	 *
+	 * @param context the context
+	 * @param fileName the file name
+	 * @param external the external
+	 * @return the object
+	 */
 	@SuppressWarnings("resource")
 	public static Object readStringObject(Context context,String fileName, Boolean external){
 		Object content = new Object();

@@ -1,3 +1,12 @@
+/*
+ * project	ClimaCast
+ * 
+ * package 	com.petrockz.climacast
+ * 
+ * @author 	Derek Bertubin
+ * 
+ * date 	Oct 10, 2013
+ */
 package com.petrockz.climacast;
 
 import java.io.IOException;
@@ -10,6 +19,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Splash.
+ */
 public class Splash extends Activity {
 
 	
@@ -18,6 +31,9 @@ public class Splash extends Activity {
 	// Splash screen timer
 	private static int SPLASH_TIME_OUT = 3000;
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,7 +41,7 @@ public class Splash extends Activity {
 
 		AssetFileDescriptor afd;
 		try {
-			// Read the music file from the asset folder
+			// Get the music file from the asset folder
 			afd = getAssets().openFd("thunder.mp3");
 			// Creation of new media _player;
 			_player = new MediaPlayer();
@@ -44,14 +60,14 @@ public class Splash extends Activity {
 		new Handler().postDelayed(new Runnable() {
 
 			/*
-			 * Showing splash screen with a timer. This will be useful when you
-			 * want to show case your app logo / company
+			 * Showing splash screen with a timer. 
+			 * 
 			 */
 
 			@Override
 			public void run() {
 				// This method will be executed once the timer is over
-				// Start your app main activity
+				// Start app main activity
 				Intent i = new Intent(Splash.this, MainActivity.class);
 				startActivity(i);
 
@@ -61,6 +77,9 @@ public class Splash extends Activity {
 		}, SPLASH_TIME_OUT);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStop()
+	 */
 	@Override
 	protected void onStop() {
 		// Disconnecting the client invalidates it.

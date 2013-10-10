@@ -6,6 +6,13 @@
  * @author 	Derek Bertubin
  * 
  * date 	Aug 5, 2013
+ * 
+ * For this assignment I used the Following to hopefully meet the requirements of the assignment
+ * 
+ * Location - The Location Button uses GPS and provides a usable Zip code to feed the editText 
+ * Media Playback - Occurs in the Splash Activity on Application Launch 
+ * Network Connections - Checks to see what type of network connections are being used and notifies user if there is a recommenced option 
+ * 
  */
 package com.petrockz.climacast;
 
@@ -69,11 +76,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainActivity.
+ */
 public class MainActivity extends Activity implements FormListener, FavoritesListener, GooglePlayServicesClient.ConnectionCallbacks,
 GooglePlayServicesClient.OnConnectionFailedListener{
 
 	private static final int REQUEST_CODE = 0;
 	static Context _context;
+	
+	
 	Button _getWeatherButton;
 	Button _saveFavButton;
 	Button _viewFavButton;
@@ -84,6 +97,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	GridLayout _resultsGrid;
 	GridLayout _5dayGrid;
 	Boolean _connected;
+	Boolean _isMobileConn;
+	Boolean _isWifiConn;
+	
 	String _baseURL;
 	String _finalURLString;
 	String _inputHolder;
@@ -123,6 +139,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	Location mCurrentLocation;
 	private ConnectionResult connectionResult;
 
+	/**
+	 * Inits the layout elements.
+	 */
 	private void initLayoutElements() {
 		_context = this;
 
@@ -134,6 +153,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -145,12 +167,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		spinnerSelector();
 		_favorites = getFavs();
 
-		
-		
+		// Called on launch of main to see if connected to Wifi or Mobile 
+		getNetworkInfo();
 
-		
-		
-		
 
 		/*
 		 * Create a new location client, using the enclosing class to
@@ -158,9 +177,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		 */
 		mLocationClient = new LocationClient(this, this, this);
 
-
-
-		/// GET WEATHER 
 
 		// Save display data 
 
@@ -178,8 +194,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
-
-
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
+	 */
 	@Override
 	public void onSaveInstanceState(Bundle outState)
 	{
@@ -187,6 +204,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 	//This grabs the data.  
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onRestoreInstanceState(android.os.Bundle)
+	 */
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState)
 	{
@@ -206,6 +226,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	
 
 
+	/**
+	 * Spinner selector.
+	 */
 	private void spinnerSelector() {
 		_selector = (Spinner)findViewById(R.id.spinner1);
 		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(_context, android.R.layout.simple_spinner_item, _options);
@@ -231,6 +254,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
+	/**
+	 * Update options array.
+	 */
 	private void updateOptionsArray() {	
 		_options.add("Get Current Weather");
 		_options.add("Get 5 Day Forecast");
@@ -242,6 +268,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	@SuppressLint("SimpleDateFormat")
 	private ArrayList<String> getDate(){
 		Calendar c = Calendar.getInstance();
@@ -273,6 +304,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	}
 
+	/**
+	 * Gets the favs.
+	 *
+	 * @return the favs
+	 */
 	@SuppressWarnings("unchecked")
 	public static ArrayList<String> getFavs (){
 
@@ -288,6 +324,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStart()
+	 */
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -295,6 +334,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		mLocationClient.connect();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStop()
+	 */
 	@Override
 	protected void onStop() {
 		// Disconnecting the client invalidates it.
@@ -305,6 +347,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -318,6 +363,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 
 	/// GET WEATHER 
+	/* (non-Javadoc)
+	 * @see com.petrockz.climacast.FormFragment.FormListener#getWeather(java.lang.String)
+	 */
 	@SuppressLint("HandlerLeak")
 	@Override
 	public void getWeather(String zip) {
@@ -431,54 +479,66 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		};
 	}
 
+	/**
+	 * Gets the network info.
+	 *
+	 * @return the network info
+	 */
+	private boolean getNetworkInfo () {
+	ConnectivityManager connMgr = (ConnectivityManager) 
+	        getSystemService(Context.CONNECTIVITY_SERVICE);
+	NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI); 
+	boolean _isWifiConn = networkInfo.isConnected();
+	networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+	boolean _isMobileConn = networkInfo.isConnected();
+	
+	
+	if (!_isMobileConn) {
+		// AlertDialog if not MOBLILE is not connected
+					AlertDialog.Builder alert = new AlertDialog.Builder(_context);
+					alert.setTitle("Hello!");
+					alert.setMessage("We noticed that you do not have mobile data enabled on this device. To use this applicaiton independant of Wi-Fi, please enable your data connection");
+					alert.setCancelable(false);
+					alert.setPositiveButton("Ok, Thank you", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialogInterface, int i) {
+							dialogInterface.cancel();
+						}
+					});
+					alert.show();
+	}
+	
+	if (!_isWifiConn) {
+		// AlertDialog if not MOBLILE is not connected
+					AlertDialog.Builder alert = new AlertDialog.Builder(_context);
+					alert.setTitle("Hello!");
+					alert.setMessage("We noticed that you do not have Wi-fi enabled or are not connected to a Wi-fi on this device. To save data usage, please enable your Wi-Fi connection");
+					alert.setCancelable(false);
+					alert.setPositiveButton("Ok, Thank you", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialogInterface, int i) {
+							dialogInterface.cancel();
+						}
+					});
+					alert.show();
+	}
+	
+	return _isMobileConn && _isWifiConn;
 
+	
+	
+	}
+	
 	// DETECT NETWORK CONNECTION
 
+	/**
+	 * Net con.
+	 */
 	private void netCon(){
 
-		ConnectivityManager connMgr = (ConnectivityManager) 
-		        getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI); 
-		boolean isWifiConn = networkInfo.isConnected();
-		networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		boolean isMobileConn = networkInfo.isConnected();
-		Log.d("DEBUG_TAG", "Wifi connected: " + isWifiConn);
-		Log.d("DEBUG_TAG", "Mobile connected: " + isMobileConn);
 		
 		
-		if (!isMobileConn) {
-			// AlertDialog if not MOBLILE is not connected
-						AlertDialog.Builder alert = new AlertDialog.Builder(_context);
-						alert.setTitle("Hello!");
-						alert.setMessage("We noticed that you do not have mobile data enabled on this device. To use this applicaiton independant of Wi-Fi, please enable your data connection");
-						alert.setCancelable(false);
-						alert.setPositiveButton("Ok, Thank you", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialogInterface, int i) {
-								dialogInterface.cancel();
-							}
-						});
-						alert.show();
-		}
-		
-		if (!isWifiConn) {
-			// AlertDialog if not MOBLILE is not connected
-						AlertDialog.Builder alert = new AlertDialog.Builder(_context);
-						alert.setTitle("Hello!");
-						alert.setMessage("We noticed that you do not have Wi-fi enabled or are not connected to a Wi-fi on this device. To save data usage, please enable your Wi-Fi connection");
-						alert.setCancelable(false);
-						alert.setPositiveButton("Ok, Thank you", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialogInterface, int i) {
-								dialogInterface.cancel();
-							}
-						});
-						alert.show();
-		}
-		
-		
-		
-		if (isMobileConn || isWifiConn) {
+
 			_connected = NetworkConnection.getConnectionStatus(_context);
 			if (_connected) {
 				Log.i("NETWORK CONNECTION",
@@ -501,11 +561,18 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 						});
 				alert.show();
 
-			}
+			
 		}		 
 	}
 
 
+	/**
+	 * Gets the uRL string.
+	 *
+	 * @param zip the zip
+	 * @return the uRL string
+	 * @throws MalformedURLException the malformed url exception
+	 */
 	private  String getURLString (String zip) throws MalformedURLException {
 
 		String finalURLString = "";
@@ -529,6 +596,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
+	/**
+	 * Display from write.
+	 *
+	 * @throws JSONException the jSON exception
+	 */
 	private void displayFromWrite() throws JSONException{
 		String fileContents = ReadWrite.readStringFile(_context, "weatherData", false);
 
@@ -549,6 +621,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		displayData();
 	}
 
+	/**
+	 * Display data.
+	 */
 	private void displayData(){
 
 		TextView temp =	(TextView) findViewById(R.id.data_tempF); 
@@ -568,6 +643,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 	/// SAVE FAVORITES
+	/* (non-Javadoc)
+	 * @see com.petrockz.climacast.FormFragment.FormListener#saveFavorite(java.lang.String)
+	 */
 	@Override
 	public void saveFavorite(String zip) {
 		// TODO Auto-generated method stub
@@ -589,6 +667,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 	/// VIEW FAVORITES 
+	/* (non-Javadoc)
+	 * @see com.petrockz.climacast.FormFragment.FormListener#viewFavorites()
+	 */
 	@Override
 	public void viewFavorites() {
 		// TODO Auto-generated method stub
@@ -603,6 +684,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
+	/* (non-Javadoc)
+	 * @see com.petrockz.climacast.FormFragment.FormListener#showMap(java.lang.String)
+	 */
 	@Override
 	public void showMap(String zip) {
 		// TODO Auto-generated method stub
@@ -620,6 +704,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 
 	// GPS Method 
+	/* (non-Javadoc)
+	 * @see com.petrockz.climacast.FormFragment.FormListener#getZipFromGPS()
+	 */
 	public void getZipFromGPS() {
 //		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
 		netCon();
@@ -654,6 +741,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
+	/* (non-Javadoc)
+	 * @see com.petrockz.climacast.FavoritesFragment.FavoritesListener#onFavoriteSelected(java.lang.String)
+	 */
 	@Override
 	public void onFavoriteSelected(String zip) {
 		_inputText.setText(zip);
@@ -667,19 +757,33 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
 	// Define a DialogFragment that displays the error dialog
+	/**
+	 * The Class ErrorDialogFragment.
+	 */
 	public static class ErrorDialogFragment extends DialogFragment {
 		// Global field to contain the error dialog
 		private Dialog mDialog;
 		// Default constructor. Sets the dialog field to null
+		/**
+		 * Instantiates a new error dialog fragment.
+		 */
 		public ErrorDialogFragment() {
 			super();
 			mDialog = null;
 		}
 		// Set the dialog to display
+		/**
+		 * Sets the dialog.
+		 *
+		 * @param dialog the new dialog
+		 */
 		public void setDialog(Dialog dialog) {
 			mDialog = dialog;
 		}
 		// Return a Dialog to the DialogFragment.
+		/* (non-Javadoc)
+		 * @see android.app.DialogFragment#onCreateDialog(android.os.Bundle)
+		 */
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			return mDialog;
@@ -689,6 +793,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	/*
 	 * Handle results returned to the FragmentActivity
 	 * by Google Play services
+	 */
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
 	 */
 	@Override
 	protected void onActivityResult(
@@ -713,6 +820,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		}
 	}
 
+	/**
+	 * Services connected.
+	 *
+	 * @return true, if successful
+	 */
 	@SuppressWarnings("unused")
 	private boolean servicesConnected() {
 		// Check that Google Play services is available
@@ -753,12 +865,20 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	// Define Location Services Callbacks
 
+	/**
+	 * Gets the support fragment manager.
+	 *
+	 * @return the support fragment manager
+	 */
 	private FragmentManager getSupportFragmentManager() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
+	/* (non-Javadoc)
+	 * @see com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks#onConnected(android.os.Bundle)
+	 */
 	@Override
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -766,6 +886,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
+	/* (non-Javadoc)
+	 * @see com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks#onDisconnected()
+	 */
 	@Override
 	public void onDisconnected() {
 		// TODO Auto-generated method stub
@@ -776,6 +899,9 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	/*
 	 * Called by Location Services if the attempt to
 	 * Location Services fails.
+	 */
+	/* (non-Javadoc)
+	 * @see com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener#onConnectionFailed(com.google.android.gms.common.ConnectionResult)
 	 */
 	@Override
 	public void onConnectionFailed(ConnectionResult connectionResult) {

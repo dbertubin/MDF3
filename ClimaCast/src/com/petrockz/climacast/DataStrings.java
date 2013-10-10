@@ -1,5 +1,17 @@
+/*
+ * project	ClimaCast
+ * 
+ * package 	com.petrockz.climacast
+ * 
+ * @author 	${author}
+ * 
+ * date 	Oct 10, 2013
+ */
 package com.petrockz.climacast;
 
+/**
+ * The Class DataStrings.
+ */
 public class DataStrings {
 
 	public static String JSON_DATA = "data";

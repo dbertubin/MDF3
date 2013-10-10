@@ -1,3 +1,12 @@
+/*
+ * project	ClimaCast
+ * 
+ * package 	com.petrockz.climacast
+ * 
+ * @author 	${author}
+ * 
+ * date 	Oct 10, 2013
+ */
 package com.petrockz.climacast;
 
 import java.text.SimpleDateFormat;
@@ -18,6 +27,10 @@ import android.widget.TextView;
 import com.petrockz.climacast.R;
 import com.petrockz.climacast.WeatherContentProvider.WeatherData;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Forecast.
+ */
 public class Forecast extends Activity {
 
 	ListView _listView;
@@ -29,7 +42,11 @@ public class Forecast extends Activity {
 	ArrayList<String> _lowArray = new ArrayList<String>();
 	ArrayList<String> _conArray = new ArrayList<String>();
 
-	/** Called when the activity is first created. */
+	/**
+	 * Called when the activity is first created.
+	 *
+	 * @param savedInstanceState the saved instance state
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -144,6 +161,11 @@ public class Forecast extends Activity {
 
 	}
 
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	@SuppressLint("SimpleDateFormat")
 	private ArrayList<String> getDate(){
 		Calendar c = Calendar.getInstance();

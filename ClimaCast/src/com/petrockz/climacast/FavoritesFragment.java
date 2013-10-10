@@ -1,3 +1,12 @@
+/*
+ * project	ClimaCast
+ * 
+ * package 	com.petrockz.climacast
+ * 
+ * @author 	${author}
+ * 
+ * date 	Oct 10, 2013
+ */
 
 package com.petrockz.climacast;
 
@@ -17,6 +26,10 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FavoritesFragment.
+ */
 public class FavoritesFragment extends Fragment implements OnItemClickListener{
 	
 	public static final String FILE_NAME = "favsArray";
@@ -24,14 +37,33 @@ public class FavoritesFragment extends Fragment implements OnItemClickListener{
 	Context _context;
 	ArrayList<String> _favorites = new ArrayList<String>();
 	
+	/**
+	 * The listener interface for receiving favorites events.
+	 * The class that is interested in processing a favorites
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addFavoritesListener<code> method. When
+	 * the favorites event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see FavoritesEvent
+	 */
 	public interface FavoritesListener{
 		
+		/**
+		 * On favorite selected.
+		 *
+		 * @param zip the zip
+		 */
 		public void onFavoriteSelected(String zip);
 	
 	}
 
 	private FavoritesListener _listener;
 	
+	/* (non-Javadoc)
+	 * @see android.app.Fragment#onAttach(android.app.Activity)
+	 */
 	@Override
 	public void onAttach(Activity activity) {
 		
@@ -47,12 +79,18 @@ public class FavoritesFragment extends Fragment implements OnItemClickListener{
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Fragment#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -85,6 +123,9 @@ public class FavoritesFragment extends Fragment implements OnItemClickListener{
 		return view;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+	 */
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
