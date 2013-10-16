@@ -51,14 +51,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.app.ActionBar.OnNavigationListener;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -67,6 +64,9 @@ import android.widget.ImageView;
 import android.text.InputType;
 import android.util.Log;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -76,7 +76,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 
@@ -1036,8 +1035,30 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_activity_actions, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
 
-
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_favorites:
+	        	Intent viewFav = new Intent(_context, Favorites.class);
+				startActivityForResult(viewFav, REQUEST_CODE);
+	            return true;
+	        case R.id.action_about:
+	            Intent viewAbout = new Intent(_context, About.class);
+				startActivityForResult(viewAbout, REQUEST_CODE);
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 
 
 }

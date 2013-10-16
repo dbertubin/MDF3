@@ -62,6 +62,7 @@
             android:windowSoftInputMode="stateHidden" >
             <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
         </activity>
+        <activity android:name="About" android:label="About"></activity>
     </application>
 
 </manifest>
