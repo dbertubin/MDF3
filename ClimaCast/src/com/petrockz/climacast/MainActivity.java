@@ -57,6 +57,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.app.ActionBar.OnNavigationListener;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -65,7 +67,6 @@ import android.widget.ImageView;
 import android.text.InputType;
 import android.util.Log;
 
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -75,6 +76,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 
@@ -91,8 +93,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	private static final int REQUEST_CODE = 0;
 	static Context _context;
-	
-	
+
+
 	Button _getWeatherButton;
 	Button _saveFavButton;
 	Button _viewFavButton;
@@ -105,7 +107,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	Boolean _connected;
 	Boolean _isMobileConn;
 	Boolean _isWifiConn;
-	
+
 	String _baseURL;
 	String _finalURLString;
 	String _inputHolder;
@@ -119,12 +121,15 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 	String _numDays;
 	Spinner _selector;
+	Spinner _navSelector;
 	ArrayList<String> _options = new ArrayList<String>();
+	ArrayList<String> _navOptions = new ArrayList<String>();
 	ArrayList<String> _dateArray = new ArrayList<String>();
 	ArrayList<String> _hiArray = new ArrayList<String>();
 	ArrayList<String> _lowArray = new ArrayList<String>();
 	ArrayList<String> _conArray = new ArrayList<String>();
 	ArrayList<String> detailsHolder = new ArrayList<String>();
+
 	public static ArrayList<String> _favorites = new ArrayList<String>();
 	ImageView image;
 
@@ -136,14 +141,17 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	String _formattedDateAdd2;
 	String _formattedDateAdd3;
 	String _formattedDateAdd4;
-	
-	
+
+
 
 
 	// LOCATION VARS
 	LocationClient mLocationClient;
 	Location mCurrentLocation;
 	private ConnectionResult connectionResult;
+	
+	
+	
 
 	/**
 	 * Inits the layout elements.
@@ -171,13 +179,23 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		// Layout Elements are contained in here
 		initLayoutElements();
 		spinnerSelector();
+		updateNavOptionsArray();
+//		navSelector();
+
+
 		_favorites = getFavs();
 
 		// Called on launch of main to see if connected to Wifi or Mobile 
 		getNetworkInfo();
 
+
+
+
+		
+			
 		
 		
+
 		/*
 		 * Create a new location client, using the enclosing class to
 		 * handle callbacks.
@@ -230,7 +248,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
-	
+
 
 
 	/**
@@ -260,6 +278,51 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		});
 	}
 
+/*
+ *  This works to a point .. can't figure out how to launch the activity on select. 
+ * 
+ */
+//	private void navSelector() {
+//		_navSelector = (Spinner)findViewById(R.id.spinner1) ;
+//
+//		SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.action_list,
+//				android.R.layout.simple_spinner_dropdown_item);
+//		//		ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<String>(_context,android.R.layout.simple_list_item_1,_navOptions);
+//		//		_navSelector.setAdapter(mSpinnerAdapter); 
+//
+//		OnNavigationListener mOnNavigationListener = null;
+//		
+//		ActionBar actionBar = getActionBar();
+//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//		actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+//		
+//
+//		mOnNavigationListener = new OnNavigationListener() {
+//			// Get the same strings provided for the drop-down's ArrayAdapter
+//			String[] strings = getResources().getStringArray(R.array.action_list);
+//
+//			@Override
+//			public boolean onNavigationItemSelected(int position, long itemId) {
+//				
+//				launchActivity(position, _context);
+//				// Create new fragment from our own Fragment class
+//				ListContentFragment newFragment = new ListContentFragment();
+//				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//				// Replace whatever is in the fragment container with this fragment
+//				//  and give the fragment a tag name equal to the string at the position selected
+//				ft.replace(R.id.fragment_container, newFragment, strings[position]);
+//				// Apply changes
+//				ft.commit();
+//				
+//				
+//				return true;
+//				
+//			}
+//
+//		};
+//
+//	}
+
 
 	/**
 	 * Update options array.
@@ -272,6 +335,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		_options.add("Get Weather for " + getDate().get(3));
 		_options.add("Get Weather for " + getDate().get(4));
 
+	}
+
+	private void updateNavOptionsArray() {
+		_navOptions.add("Favorites");
+		_navOptions.add("Help");
 	}
 
 
@@ -349,11 +417,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		// Disconnecting the client invalidates it.
 		mLocationClient.disconnect();
 		super.onStop();
-		
+
 	}
 
-	
-	
+
+
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onResume()
 	 */
@@ -363,8 +431,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		_favorites = getFavs();
 		String getString = getIntent().getStringExtra("item");
 		_inputText.setText(getString);
-//		_player.start();
-	
+		//		_player.start();
+
 	}
 
 
@@ -493,50 +561,50 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 * @return the network info
 	 */
 	private boolean getNetworkInfo () {
-	ConnectivityManager connMgr = (ConnectivityManager) 
-	        getSystemService(Context.CONNECTIVITY_SERVICE);
-	NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI); 
-	boolean _isWifiConn = networkInfo.isConnected();
-	networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-	boolean _isMobileConn = networkInfo.isConnected();
-	
-	
-	if (!_isMobileConn) {
-		// AlertDialog if not MOBLILE is not connected
-					AlertDialog.Builder alert = new AlertDialog.Builder(_context);
-					alert.setTitle("Hello!");
-					alert.setMessage("We noticed that you do not have mobile data enabled on this device. To use this applicaiton independant of Wi-Fi, please enable your data connection");
-					alert.setCancelable(false);
-					alert.setPositiveButton("Ok, Thank you", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialogInterface, int i) {
-							dialogInterface.cancel();
-						}
-					});
-					alert.show();
-	}
-	
-	if (!_isWifiConn) {
-		// AlertDialog if not MOBLILE is not connected
-					AlertDialog.Builder alert = new AlertDialog.Builder(_context);
-					alert.setTitle("Hello!");
-					alert.setMessage("We noticed that you do not have Wi-fi enabled or are not connected to a Wi-fi on this device. To save data usage, please enable your Wi-Fi connection");
-					alert.setCancelable(false);
-					alert.setPositiveButton("Ok, Thank you", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialogInterface, int i) {
-							dialogInterface.cancel();
-						}
-					});
-					alert.show();
-	}
-	
-	return _isMobileConn && _isWifiConn;
+		ConnectivityManager connMgr = (ConnectivityManager) 
+				getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI); 
+		boolean _isWifiConn = networkInfo.isConnected();
+		networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		boolean _isMobileConn = networkInfo.isConnected();
 
-	
-	
+
+		if (!_isMobileConn) {
+			// AlertDialog if not MOBLILE is not connected
+			AlertDialog.Builder alert = new AlertDialog.Builder(_context);
+			alert.setTitle("Hello!");
+			alert.setMessage("We noticed that you do not have mobile data enabled on this device. To use this applicaiton independant of Wi-Fi, please enable your data connection");
+			alert.setCancelable(false);
+			alert.setPositiveButton("Ok, Thank you", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					dialogInterface.cancel();
+				}
+			});
+			alert.show();
+		}
+
+		if (!_isWifiConn) {
+			// AlertDialog if not MOBLILE is not connected
+			AlertDialog.Builder alert = new AlertDialog.Builder(_context);
+			alert.setTitle("Hello!");
+			alert.setMessage("We noticed that you do not have Wi-fi enabled or are not connected to a Wi-fi on this device. To save data usage, please enable your Wi-Fi connection");
+			alert.setCancelable(false);
+			alert.setPositiveButton("Ok, Thank you", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					dialogInterface.cancel();
+				}
+			});
+			alert.show();
+		}
+
+		return _isMobileConn && _isWifiConn;
+
+
+
 	}
-	
+
 	// DETECT NETWORK CONNECTION
 
 	/**
@@ -544,32 +612,32 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 */
 	private void netCon(){
 
-		
-		
 
-			_connected = NetworkConnection.getConnectionStatus(_context);
-			if (_connected) {
-				Log.i("NETWORK CONNECTION",
-						NetworkConnection.getConnectionType(_context));
 
-			} else {
 
-				// AlertDialog if not connected
-				AlertDialog.Builder alert = new AlertDialog.Builder(_context);
-				alert.setTitle("Oops!");
-				alert.setMessage("Please check your network connection and try again.");
-				alert.setCancelable(false);
-				alert.setPositiveButton("Hiyah!",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(
-									DialogInterface dialogInterface, int i) {
-								dialogInterface.cancel();
-							}
-						});
-				alert.show();
+		_connected = NetworkConnection.getConnectionStatus(_context);
+		if (_connected) {
+			Log.i("NETWORK CONNECTION",
+					NetworkConnection.getConnectionType(_context));
 
-			
+		} else {
+
+			// AlertDialog if not connected
+			AlertDialog.Builder alert = new AlertDialog.Builder(_context);
+			alert.setTitle("Oops!");
+			alert.setMessage("Please check your network connection and try again.");
+			alert.setCancelable(false);
+			alert.setPositiveButton("Hiyah!",
+					new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(
+						DialogInterface dialogInterface, int i) {
+					dialogInterface.cancel();
+				}
+			});
+			alert.show();
+
+
 		}		 
 	}
 
@@ -717,7 +785,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 */
 	@Override
 	public void getZipFromGPS() {
-//		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
+		//		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
 		netCon();
 		if (_connected) {
 			// Grab Location from location client 
@@ -744,7 +812,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			// Set the string into the _inputText 
 			_inputText.setText(_zip);
 		} else {
-			
+
 
 		}
 	}
@@ -881,8 +949,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 */
 	private  FragmentManager getSupportFragmentManager() {
 		return null;
-		
-		
+
+
 	}
 
 
@@ -892,7 +960,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	@Override
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
-//		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+		//		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
 	}
 
 
@@ -940,20 +1008,36 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
-	    switch (item.getItemId()) {
-////	        case R.id.action_search:
-////	            openSearch();
-////	            return true;
-////	        case R.id.action_compose:
-////	            composeMessage();
-////	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
-	
+	public void showActivityFromSelection(int position) {
+		switch (position) {
+		case 1:
+			Intent viewFav = new Intent(_context, Favorites.class);
+			startActivityForResult(viewFav, REQUEST_CODE);
+			break;
 
-		
+		default:
+			break;
+		}
+
+	}
+
+
+
+	protected void launchActivity(int itemPosition, Context _Context) {
+	     switch (itemPosition) {
+	        case 1:
+	        	Intent viewFav = new Intent(_Context, Favorites.class);
+				startActivityForResult(viewFav, REQUEST_CODE);
+				Log.d("THIS WAS ", "HIT");
+	           break;
+	      
+	         
+	     }
+	}
+
+
+
+
+
+
 }

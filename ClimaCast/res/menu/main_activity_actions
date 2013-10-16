@@ -5,4 +5,6 @@
     <item android:id="@+id/action_compose"
           android:icon="@drawable/shower1"
           android:title="@string/compose" />
+          android:showAsAction="always"
+          android:icon="@drawable/shower1"
 </menu>

@@ -57,6 +57,7 @@ public class Forecast extends Activity {
 		ActionBar actionBar = getActionBar(); 
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
+		
 		Intent intent = getIntent();
 		int option = intent.getExtras().getInt("URI");
 

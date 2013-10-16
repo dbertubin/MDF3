@@ -12,7 +12,7 @@
     <string name="wind_speed_label">Wind Speed:</string>
     <string name="wind_direction_label">Wind Direction:</string>
     <string name="description_image">Description Image</string>
-    <string name="location">ZIP Code:</string>
+    <string name="location">Location</string>
     <string name="amount_of_days_to_forcast">Amount of days to forcast</string>
     <string name="enter_a_valid_zip_code_">Enter a valid zip code.</string>
     <string name="please_enter_1_5_">Please enter 1-5!</string>
@@ -28,6 +28,9 @@
     <string name="search">Search</string>
     <string name="compose">Compose</string>
     
-    
+    <string-array name="action_list">
+        <item>Favorites</item>
+        <item>Help</item>
+    </string-array>
 
 </resources>

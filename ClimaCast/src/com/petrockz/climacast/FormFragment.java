@@ -9,6 +9,8 @@
  */
 package com.petrockz.climacast;
 
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
@@ -22,6 +24,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -30,7 +33,7 @@ import android.widget.LinearLayout;
 public class FormFragment extends Fragment {
 
 	private FormListener listener; 
-	
+
 	static Context _context;
 	Button _getWeatherButton;
 	Button _saveFavButton;
@@ -39,8 +42,10 @@ public class FormFragment extends Fragment {
 	Button _getGPS;
 	EditText _inputText;
 	String _zip;
-	
-	
+
+	ListView _listView;
+	ArrayList<String> _activities = new ArrayList<String>();
+
 	/**
 	 * The listener interface for receiving form events.
 	 * The class that is interested in processing a form
@@ -53,7 +58,7 @@ public class FormFragment extends Fragment {
 	 * @see FormEvent
 	 */
 	public interface FormListener{
-		
+
 		/**
 		 * Gets the weather.
 		 *
@@ -61,131 +66,140 @@ public class FormFragment extends Fragment {
 		 * @return the weather
 		 */
 		public void getWeather(String zip);
-		
+
 		/**
 		 * Save favorite.
 		 *
 		 * @param zip the zip
 		 */
 		public void saveFavorite(String zip);
-		
+
 		/**
 		 * View favorites.
 		 */
 		public void viewFavorites();
-		
+
 		/**
 		 * Show map.
 		 *
 		 * @param zip the zip
 		 */
 		public void showMap(String zip);
-		
+
 		/**
 		 * Gets the zip from gps.
 		 *
 		 * @return the zip from gps
 		 */
 		public void getZipFromGPS(); 
-			
-	
+
+		public void showActivityFromSelection(int position);
 		
+
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see android.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			super.onCreateView(inflater, container, savedInstanceState);
-			
-			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.form, container, false);
-			
-			_inputText = (EditText) view.findViewById(R.id.editText);
-			_inputText.setInputType(InputType.TYPE_CLASS_NUMBER);
-			
-			_zip = _inputText.getText().toString();
-			
-			/// SAVE FAVORITES 
-			
-			_saveFavButton = (Button) view.findViewById(R.id.saveFav);
-			_saveFavButton.setOnClickListener(new OnClickListener() {
+		super.onCreateView(inflater, container, savedInstanceState);
 
-				@Override
-				public void onClick(View v) {
+		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.form, container, false);
 
-					listener.saveFavorite(_zip);
-					
-				}	
-			});
-			
-			
-			/// GET GPS 
-			_getGPS = (Button) view.findViewById(R.id.getGps);
-			_getGPS.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					listener.getZipFromGPS();
-				}
-			});
-			
-			
-			/// GET MAP 
-			_showMapButton = (Button) view.findViewById(R.id.show);
-			_showMapButton.setOnClickListener(new OnClickListener() {
+		_inputText = (EditText) view.findViewById(R.id.editText);
+		_inputText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-				@Override
-				public void onClick(View v) {
+		_zip = _inputText.getText().toString();
+
+		/// SAVE FAVORITES 
+
+		_saveFavButton = (Button) view.findViewById(R.id.saveFav);
+		_saveFavButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				listener.saveFavorite(_zip);
+
+			}	
+		});
+
+
+		/// GET GPS 
+		_getGPS = (Button) view.findViewById(R.id.getGps);
+		_getGPS.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				listener.getZipFromGPS();
+			}
+		});
+
+
+		/// GET MAP 
+		_showMapButton = (Button) view.findViewById(R.id.show);
+		_showMapButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
 
 				listener.showMap(_zip);	
 
-				}
-			}); 
-			
-			/// VIEW FAVORITES 
-			_viewFavButton  = (Button) view.findViewById(R.id.viewFav);
-			_viewFavButton.setOnClickListener(new OnClickListener() {
+			}
+		}); 
 
-				@Override
-				public void onClick(View v) {
+		/// VIEW FAVORITES 
+		_viewFavButton  = (Button) view.findViewById(R.id.viewFav);
+		_viewFavButton.setOnClickListener(new OnClickListener() {
 
-					listener.viewFavorites();
+			@Override
+			public void onClick(View v) {
 
-				}
-			});
-			
-			
-			/// GET WEATHER 
-			
-			_getWeatherButton = (Button)view.findViewById(R.id.startButton);
-			_getWeatherButton.setOnClickListener(new OnClickListener() {
+				listener.viewFavorites();
 
-				@SuppressLint("HandlerLeak")
-				@Override
-				public void onClick(final View v) {
+			}
+		});
+
+
+		/// GET WEATHER 
+
+		_getWeatherButton = (Button)view.findViewById(R.id.startButton);
+		_getWeatherButton.setOnClickListener(new OnClickListener() {
+
+			@SuppressLint("HandlerLeak")
+			@Override
+			public void onClick(final View v) {
+
+				listener.getWeather(_zip);
+			}
+
+		});
+		
+		
+		
 				
-					listener.getWeather(_zip);
-				}
-
-			});
-			
-			return view;
-	}
+				
+		return view;
 	
+	}
+
+	
+
+
 	/* (non-Javadoc)
 	 * @see android.app.Fragment#onAttach(android.app.Activity)
 	 */
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		
+
 		try {
 			listener = (FormListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString() + " must be FormListener");
 		}
 	}
-	
+
 }
