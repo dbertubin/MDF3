@@ -164,7 +164,7 @@ public class ReadWrite {
 			
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			try{
-				content = (Object) ois.readObject();
+				content = ois.readObject();
 			} catch (ClassNotFoundException e){
 				Log.e("READ ERROR", "INVALID JAVA OBJECT FILE");
 			}

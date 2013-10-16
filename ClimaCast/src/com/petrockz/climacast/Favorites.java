@@ -9,11 +9,15 @@
  */
 package com.petrockz.climacast;
 
+
+
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -34,6 +38,9 @@ public class Favorites extends Activity implements FavoritesFragment.FavoritesLi
 		Log.d("Favorites" , "Setting CV");
 		setContentView(R.layout.favorites_fragment);
 		_context = this;
+		
+		ActionBar actionBar = getActionBar(); 
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		Log.i("CONTEXT =", "YAY");
 	}
 
@@ -50,6 +57,17 @@ public class Favorites extends Activity implements FavoritesFragment.FavoritesLi
 		finish();
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) { 
+	        switch (item.getItemId()) {
+	        case android.R.id.home: 
+	            onBackPressed();
+	            return true;
+	        }
+
+	    return super.onOptionsItemSelected(item);
+	}
+	
 }
 
 

@@ -10,7 +10,9 @@
  * For this assignment I used the Following to hopefully meet the requirements of the assignment
  * 
  * Location - The Location Button uses GPS and provides a usable Zip code to feed the editText 
+ * 
  * Media Playback - Occurs in the Splash Activity on Application Launch 
+ * 
  * Network Connections - Checks to see what type of network connections are being used and notifies user if there is a recommenced option 
  * 
  */
@@ -49,6 +51,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -62,6 +65,7 @@ import android.widget.ImageView;
 import android.text.InputType;
 import android.util.Log;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -72,6 +76,8 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+
 
 import android.widget.Toast;
 
@@ -170,7 +176,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		// Called on launch of main to see if connected to Wifi or Mobile 
 		getNetworkInfo();
 
-
+		
+		
 		/*
 		 * Create a new location client, using the enclosing class to
 		 * handle callbacks.
@@ -384,6 +391,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 				Handler weatherHandler = new Handler(){
 
+					@Override
 					public void handleMessage(Message msg) {
 						super.handleMessage(msg);
 
@@ -707,6 +715,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	/* (non-Javadoc)
 	 * @see com.petrockz.climacast.FormFragment.FormListener#getZipFromGPS()
 	 */
+	@Override
 	public void getZipFromGPS() {
 //		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
 		netCon();
@@ -870,9 +879,10 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 *
 	 * @return the support fragment manager
 	 */
-	private FragmentManager getSupportFragmentManager() {
-		// TODO Auto-generated method stub
+	private  FragmentManager getSupportFragmentManager() {
 		return null;
+		
+		
 	}
 
 
@@ -928,7 +938,21 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		} 
 	}
 
-	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+////	        case R.id.action_search:
+////	            openSearch();
+////	            return true;
+////	        case R.id.action_compose:
+////	            composeMessage();
+////	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 	
 
 		

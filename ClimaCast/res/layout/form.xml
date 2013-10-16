@@ -21,8 +21,8 @@
                 android:layout_weight="2"
                 android:hint="@string/enter_zip_code_here_"
                 android:paddingBottom="10dip"
-                android:paddingTop="10dip" 
-                android:windowSoftInputMode="stateHidden">
+                android:paddingTop="10dip"
+                android:windowSoftInputMode="stateHidden" >
 
                 <requestFocus />
             </EditText>
@@ -33,7 +33,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.07"
                 android:text="Location" />
-
         </LinearLayout>
 
         <Spinner

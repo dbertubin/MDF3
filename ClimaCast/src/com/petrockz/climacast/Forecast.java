@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -52,6 +54,9 @@ public class Forecast extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.five_day_grid);
 
+		ActionBar actionBar = getActionBar(); 
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		
 		Intent intent = getIntent();
 		int option = intent.getExtras().getInt("URI");
 
@@ -196,6 +201,17 @@ public class Forecast extends Activity {
 		return list;
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) { 
+	        switch (item.getItemId()) {
+	        case android.R.id.home: 
+	            onBackPressed();
+	            return true;
+	        }
 
+	    return super.onOptionsItemSelected(item);
+	}
+	
+	
 }
 
