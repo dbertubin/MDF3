@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/shower2"
@@ -62,7 +61,20 @@
             android:windowSoftInputMode="stateHidden" >
             <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
         </activity>
-        <activity android:name="About" android:label="About"></activity>
+        <activity
+            android:name="About"
+            android:label="About" >
+        </activity>
+
+        <receiver android:name="ClimaCastWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget" />
+        </receiver>
     </application>
 
 </manifest>
