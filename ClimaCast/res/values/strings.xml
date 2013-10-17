@@ -32,5 +32,6 @@
         <item>Favorites</item>
         <item>Help</item>
     </string-array>
+        <string name="about">This application was made by Derek Bertubin. \\n\\nWeather information provided by: \\nhttp://www.worldweatheronline.com</string>
 
 </resources>

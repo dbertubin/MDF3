@@ -56,6 +56,8 @@ public class FavoritesFragment extends Fragment implements OnItemClickListener{
 		 * @param zip the zip
 		 */
 		public void onFavoriteSelected(String zip);
+
+		
 	
 	}
 

@@ -19,23 +19,31 @@ public class ClimaCastWidgetProvider extends AppWidgetProvider{
 			Intent intent = new Intent(context, MainActivity.class);
 			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-				            // Get the layout for the App Widget and attach an on-click listener
-				            // to the button
-				            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-				            views.setOnClickPendingIntent(R.id.widgetButton, pendingIntent);
-				            
-				            
-				            // Tell the AppWidgetManager to perform an update on the current app widget
+			// Get the layout for the App Widget and attach an on-click listener
+			// to the button
+			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+			views.setOnClickPendingIntent(R.id.widgetButton, pendingIntent);
 
-				            appWidgetManager.updateAppWidget(appWidgetId, views);
+			views.setTextViewText(R.id.widget_temp, TempHolder._temp);
+
+			
+			
+			
+			
+			// Tell the AppWidgetManager to perform an update on the current app widget
+
+			appWidgetManager.updateAppWidget(appWidgetId, views);
 
 		}
 	}
-	
+
+
+
 	@Override
 	public void onDeleted(Context context, int[] appWidgetIds) {
 		// TODO Auto-generated method stub
 		super.onDeleted(context, appWidgetIds);
 	}
+	
 }
 

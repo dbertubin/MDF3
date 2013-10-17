@@ -141,6 +141,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	String _formattedDateAdd3;
 	String _formattedDateAdd4;
 
+	String widgetTemp;
+	
 
 
 
@@ -451,6 +453,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			_inputHolder = _inputText.getText().toString();
 			if (_inputText.getText().toString().length() == 5) {
 
+				TempHolder.setZip(_inputHolder);
+				
 				// DISMISSES KEYBOARD on CLICK 
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(_inputText.getWindowToken(), 0);
@@ -546,12 +550,14 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 				Toast toast = Toast.makeText(getApplicationContext(), R.string.enter_a_valid_zip_code_, Toast.LENGTH_LONG);
 				toast.show();
-				return;
+				
+
 
 			}
 
 
 		};
+		
 	}
 
 	/**
@@ -690,7 +696,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		JSONArray weatherDesc = weatherObj.getJSONArray("weatherDesc");
 		_weatherDescValue = weatherDesc.getJSONObject(0).getString("value");
 		_zip = _dataObj.getJSONArray("request").getJSONObject(0).getString("query");
-
+		
+		TempHolder._temp = _temp;
 
 
 		displayData();

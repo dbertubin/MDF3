@@ -67,5 +67,9 @@
     <style name= "ForecastImage">
         <item name= "android:paddingRight">40dp</item>
     </style>
+    
+    <style name= "WidgetText">
+        <item name= "android:textSize">30sp</item>
+    </style>
 
 </resources>

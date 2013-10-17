@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.45"
-        android:text="This application was made by Derek Bertubin. \n\nWeather information provided by: \nhttp://www.worldweatheronline.com" 
+        android:text="@string/about" 
         style="@style/DayLabels"/>
 
     
