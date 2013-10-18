@@ -91,7 +91,7 @@ public class FormFragment extends Fragment {
 		 *
 		 * @return the zip from gps
 		 */
-		public void getZipFromGPS(); 
+		public String getZipFromGPS(); 
 
 		public void showActivityFromSelection(int position);
 

@@ -37,6 +37,7 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.petrockz.chucknorris.lib.NetworkConnection;
+import com.petrockz.climacast.ClimaCastWidgetProvider.WidgetListener;
 import com.petrockz.climacast.FavoritesFragment.FavoritesListener;
 import com.petrockz.climacast.FormFragment.FormListener;
 
@@ -87,7 +88,7 @@ import android.widget.Toast;
 /**
  * The Class MainActivity.
  */
-public class MainActivity extends Activity implements FormListener, FavoritesListener, GooglePlayServicesClient.ConnectionCallbacks,
+public class MainActivity extends Activity implements FormListener, WidgetListener, FavoritesListener, GooglePlayServicesClient.ConnectionCallbacks,
 GooglePlayServicesClient.OnConnectionFailedListener{
 
 	private static final int REQUEST_CODE = 0;
@@ -130,6 +131,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	ArrayList<String> detailsHolder = new ArrayList<String>();
 
 	public static ArrayList<String> _favorites = new ArrayList<String>();
+	
 	ImageView image;
 
 	JSONObject _dataObj;
@@ -617,9 +619,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 */
 	private void netCon(){
 
-
-
-
 		_connected = NetworkConnection.getConnectionStatus(_context);
 		if (_connected) {
 			Log.i("NETWORK CONNECTION",
@@ -790,7 +789,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 * @see com.petrockz.climacast.FormFragment.FormListener#getZipFromGPS()
 	 */
 	@Override
-	public void getZipFromGPS() {
+	public String getZipFromGPS() {
 		//		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
 		netCon();
 		if (_connected) {
@@ -821,6 +820,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 
 		}
+		return _zip;
 	}
 
 
