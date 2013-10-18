@@ -88,13 +88,14 @@ import android.widget.Toast;
 /**
  * The Class MainActivity.
  */
-public class MainActivity extends Activity implements FormListener, WidgetListener, FavoritesListener, GooglePlayServicesClient.ConnectionCallbacks,
+public class MainActivity extends Activity implements FormListener, WidgetListener,FavoritesListener, GooglePlayServicesClient.ConnectionCallbacks,
 GooglePlayServicesClient.OnConnectionFailedListener{
 
 	private static final int REQUEST_CODE = 0;
 	static Context _context;
 
 
+	
 	Button _getWeatherButton;
 	Button _saveFavButton;
 	Button _viewFavButton;
@@ -143,8 +144,8 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	String _formattedDateAdd3;
 	String _formattedDateAdd4;
 
-	String widgetTemp;
-	
+	String _widgetTemp;
+	String _widgetZip;
 
 
 
@@ -183,15 +184,23 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		initLayoutElements();
 		spinnerSelector();
 		updateNavOptionsArray();
-//		navSelector();
 
-
+		
+		
+		
+		
+		
 		_favorites = getFavs();
 
 		// Called on launch of main to see if connected to Wifi or Mobile 
 		getNetworkInfo();
 
-
+//		getZipFromGPS();
+		if(_zip != null){
+			getWeather(_zip);
+		} else {
+			Log.d("-ZIP", "IS NULL");
+		}
 
 
 		
@@ -455,7 +464,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			_inputHolder = _inputText.getText().toString();
 			if (_inputText.getText().toString().length() == 5) {
 
-				TempHolder.setZip(_inputHolder);
+				
 				
 				// DISMISSES KEYBOARD on CLICK 
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -789,7 +798,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 * @see com.petrockz.climacast.FormFragment.FormListener#getZipFromGPS()
 	 */
 	@Override
-	public String getZipFromGPS() {
+	public  void getZipFromGPS() {
 		//		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
 		netCon();
 		if (_connected) {
@@ -816,11 +825,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			_zip = addresses.get(0).getPostalCode();
 			// Set the string into the _inputText 
 			_inputText.setText(_zip);
-		} else {
-
-
-		}
-		return _zip;
+			
+			
+			
+		} 
+	
 	}
 
 
