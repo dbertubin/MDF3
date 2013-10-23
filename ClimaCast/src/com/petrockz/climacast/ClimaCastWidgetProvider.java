@@ -1,19 +1,23 @@
 package com.petrockz.climacast;
 
+import com.google.android.gms.location.LocationClient;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.widget.RemoteViews;
 
-public class ClimaCastWidgetProvider extends AppWidgetProvider{
+
+public class ClimaCastWidgetProvider extends AppWidgetProvider  {
 
 	@SuppressWarnings("unused")
 	private WidgetListener listener;
 	@SuppressWarnings("unused")
-	private String _zip;
-	
+	private static String _zip;
+	static LocationClient mLocationClient;
+	static Location mCurrentLocation;
 	public interface WidgetListener{
 
 		public  void getZipFromGPS();
@@ -73,6 +77,7 @@ public class ClimaCastWidgetProvider extends AppWidgetProvider{
 		// TODO Auto-generated method stub
 		super.onDeleted(context, appWidgetIds);
 	}
+	
 
 }
 

@@ -94,8 +94,12 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	private static final int REQUEST_CODE = 0;
 	static Context _context;
 
-
-	
+	/*
+	 * 
+	 *  UI ELEMENTS 
+	 * 
+	 * 
+	 */
 	Button _getWeatherButton;
 	Button _saveFavButton;
 	Button _viewFavButton;
@@ -109,20 +113,33 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	Boolean _isMobileConn;
 	Boolean _isWifiConn;
 
+	
+	/*
+	 * 
+	 *  DATA VARIABLES 
+	 * 
+	 */
 	String _baseURL;
 	String _finalURLString;
 	String _inputHolder;
-
 	String _temp ;
 	String _humidity ;
 	String _windSpeed ;
 	String _windDirection ;
 	String _weatherDescValue;
 	String _zip;
-
 	String _numDays;
+	String _formattedDate;
+	String _formattedDateAdd1;
+	String _formattedDateAdd2;
+	String _formattedDateAdd3;
+	String _formattedDateAdd4;
+	String _widgetTemp;
+	String _widgetZip;
+	
 	Spinner _selector;
 	Spinner _navSelector;
+	
 	ArrayList<String> _options = new ArrayList<String>();
 	ArrayList<String> _navOptions = new ArrayList<String>();
 	ArrayList<String> _dateArray = new ArrayList<String>();
@@ -130,23 +147,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	ArrayList<String> _lowArray = new ArrayList<String>();
 	ArrayList<String> _conArray = new ArrayList<String>();
 	ArrayList<String> detailsHolder = new ArrayList<String>();
-
 	public static ArrayList<String> _favorites = new ArrayList<String>();
 	
 	ImageView image;
-
 	JSONObject _dataObj;
 	int _optionSelected;
-
-	String _formattedDate;
-	String _formattedDateAdd1;
-	String _formattedDateAdd2;
-	String _formattedDateAdd3;
-	String _formattedDateAdd4;
-
-	String _widgetTemp;
-	String _widgetZip;
-
 
 
 	// LOCATION VARS
@@ -171,8 +176,10 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	}
 
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	/* 
+	 *
+	 * ONCREATE	 
+	 *
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -184,28 +191,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		initLayoutElements();
 		spinnerSelector();
 		updateNavOptionsArray();
-
-		
-		
-		
-		
 		
 		_favorites = getFavs();
 
 		// Called on launch of main to see if connected to Wifi or Mobile 
 		getNetworkInfo();
-
-//		getZipFromGPS();
-		if(_zip != null){
-			getWeather(_zip);
-		} else {
-			Log.d("-ZIP", "IS NULL");
-		}
-
-
-		
-			
-		
 		
 
 		/*
@@ -290,50 +280,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		});
 	}
 
-/*
- *  This works to a point .. can't figure out how to launch the activity on select. 
- * 
- */
-//	private void navSelector() {
-//		_navSelector = (Spinner)findViewById(R.id.spinner1) ;
-//
-//		SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.action_list,
-//				android.R.layout.simple_spinner_dropdown_item);
-//		//		ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<String>(_context,android.R.layout.simple_list_item_1,_navOptions);
-//		//		_navSelector.setAdapter(mSpinnerAdapter); 
-//
-//		OnNavigationListener mOnNavigationListener = null;
-//		
-//		ActionBar actionBar = getActionBar();
-//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-//		actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
-//		
-//
-//		mOnNavigationListener = new OnNavigationListener() {
-//			// Get the same strings provided for the drop-down's ArrayAdapter
-//			String[] strings = getResources().getStringArray(R.array.action_list);
-//
-//			@Override
-//			public boolean onNavigationItemSelected(int position, long itemId) {
-//				
-//				launchActivity(position, _context);
-//				// Create new fragment from our own Fragment class
-//				ListContentFragment newFragment = new ListContentFragment();
-//				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//				// Replace whatever is in the fragment container with this fragment
-//				//  and give the fragment a tag name equal to the string at the position selected
-//				ft.replace(R.id.fragment_container, newFragment, strings[position]);
-//				// Apply changes
-//				ft.commit();
-//				
-//				
-//				return true;
-//				
-//			}
-//
-//		};
-//
-//	}
+
 
 
 	/**
@@ -767,10 +714,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 			Intent viewFav = new Intent(_context, Favorites.class);
 			startActivityForResult(viewFav, REQUEST_CODE);
-		} 
-		//			else {
-		//			Toast.makeText(_context, "Ut oh! You dont have any Favorites. You should add some!", Toast.LENGTH_SHORT).show();
-		//		}
+		}
 	}
 
 
@@ -825,13 +769,10 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 			_zip = addresses.get(0).getPostalCode();
 			// Set the string into the _inputText 
 			_inputText.setText(_zip);
-			
-			
-			
+						
 		} 
 	
 	}
-
 
 	/* (non-Javadoc)
 	 * @see com.petrockz.climacast.FavoritesFragment.FavoritesListener#onFavoriteSelected(java.lang.String)
@@ -1078,3 +1019,48 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 
 }
+
+/*
+ *  This works to a point .. can't figure out how to launch the activity on select. 
+ * 
+ */
+//	private void navSelector() {
+//		_navSelector = (Spinner)findViewById(R.id.spinner1) ;
+//
+//		SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.action_list,
+//				android.R.layout.simple_spinner_dropdown_item);
+//		//		ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<String>(_context,android.R.layout.simple_list_item_1,_navOptions);
+//		//		_navSelector.setAdapter(mSpinnerAdapter); 
+//
+//		OnNavigationListener mOnNavigationListener = null;
+//		
+//		ActionBar actionBar = getActionBar();
+//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//		actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+//		
+//
+//		mOnNavigationListener = new OnNavigationListener() {
+//			// Get the same strings provided for the drop-down's ArrayAdapter
+//			String[] strings = getResources().getStringArray(R.array.action_list);
+//
+//			@Override
+//			public boolean onNavigationItemSelected(int position, long itemId) {
+//				
+//				launchActivity(position, _context);
+//				// Create new fragment from our own Fragment class
+//				ListContentFragment newFragment = new ListContentFragment();
+//				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//				// Replace whatever is in the fragment container with this fragment
+//				//  and give the fragment a tag name equal to the string at the position selected
+//				ft.replace(R.id.fragment_container, newFragment, strings[position]);
+//				// Apply changes
+//				ft.commit();
+//				
+//				
+//				return true;
+//				
+//			}
+//
+//		};
+//
+//	}
