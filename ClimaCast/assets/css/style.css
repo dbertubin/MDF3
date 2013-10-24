@@ -5,7 +5,14 @@ h2
 {
 	color: #555;
 }
-#more{
+
+#userComments{
+	padding: 30px;
+}
+
+
+
+#more, userCommentLabel{
 	font: bold 1em/1.5em "Bitter", Arial, Helvetica, Geneva, sans-serif;
 	color: rgb(34, 143, 130);
 }

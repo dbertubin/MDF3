@@ -64,6 +64,10 @@
 			<h2 class="text-center" id="contact">Contact Me</h2>
 			<div id="emailUs">
 				
+				<label id="userCommentLabel">Comments</label>	
+				
+				<textarea id="userComments"></textarea>
+				
 				<button onclick="sendEmail()">
 					<img src="img/emailIcon.png" id=emailButton/>
 				</button>
@@ -85,7 +89,7 @@
 	
 	<script>
 		function sendEmail() {
-			Native.sendEmail();
+			Native.sendEmail(document.getElementById('userComments').value);
 		}
 	</script>
 	

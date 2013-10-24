@@ -742,7 +742,7 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 * @see com.petrockz.climacast.FormFragment.FormListener#getZipFromGPS()
 	 */
 	@Override
-	public  void getZipFromGPS() {
+	public void getZipFromGPS() {
 		//		Toast.makeText(_context, "This Button Works", Toast.LENGTH_SHORT).show();
 		netCon();
 		if (_connected) {

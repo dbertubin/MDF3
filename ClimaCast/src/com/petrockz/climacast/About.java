@@ -29,12 +29,14 @@ public class About extends Activity{
 	    }
 
 	    @JavascriptInterface
-	    public void sendEmail(){
-	    	
+	    public void sendEmail(String string){
+	    
+	    	Log.i("String is", string);
+	 	
 	    	Log.i("INTENT", "is getting hit");
 	        Intent sendIntent = new Intent(Intent.ACTION_SEND);
 	        sendIntent.setType("text/html");
-	        sendIntent.putExtra(android.content.Intent.EXTRA_TEXT,"-Sent From ClimaCast");
+	        sendIntent.putExtra(android.content.Intent.EXTRA_TEXT, string + " -Sent From ClimaCast");
 	        sendIntent.putExtra(Intent.EXTRA_SUBJECT,"Email From Climacast");
 	        sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "dbertubin@fullsail.edu" });
 	        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
