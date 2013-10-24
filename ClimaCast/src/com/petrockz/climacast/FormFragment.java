@@ -114,18 +114,7 @@ public class FormFragment extends Fragment {
 
 		_zip = _inputText.getText().toString();
 
-		/// SAVE FAVORITES 
-
-		_saveFavButton = (Button) view.findViewById(R.id.saveFav);
-		_saveFavButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				listener.saveFavorite(_zip);
-
-			}	
-		});
+	
 
 
 		/// GET GPS 
@@ -140,29 +129,6 @@ public class FormFragment extends Fragment {
 		});
 
 
-		/// GET MAP 
-		_showMapButton = (Button) view.findViewById(R.id.show);
-		_showMapButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				listener.showMap(_zip);	
-
-			}
-		}); 
-
-		/// VIEW FAVORITES 
-		_viewFavButton  = (Button) view.findViewById(R.id.viewFav);
-		_viewFavButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				listener.viewFavorites();
-
-			}
-		});
 
 
 		/// GET WEATHER 

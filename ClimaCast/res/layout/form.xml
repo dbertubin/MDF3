@@ -30,8 +30,7 @@
             <Button
                 android:id="@+id/getGps"
                 android:layout_width="104dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.07"
+                android:layout_height="65dp"
                 android:text="@string/location" />
         </LinearLayout>
 
@@ -44,20 +43,21 @@
             android:id="@+id/startButton"
             style="@style/ButtonText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="79dp"
             android:padding="10dip"
             android:paddingTop="20dip"
             android:text="@string/getButtonText" />
+
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="230dp" >
+        android:layout_height="342dp" >
 
         <GridLayout
             android:id="@+id/currentData"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="318dp"
             android:columnCount="2"
             android:fillViewport="true"
             android:paddingLeft="10dip"
@@ -149,26 +149,6 @@
         android:layout_marginTop="20dp"
         android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/viewFav"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.34"
-            android:text="@string/view_favorites" />
-
-        <Button
-            android:id="@+id/saveFav"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.32"
-            android:text="@string/save_favorite" />
-
-        <Button
-            android:id="@+id/show"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".33"
-            android:text="@string/show_on_map" />
     </LinearLayout>
 
 </LinearLayout>

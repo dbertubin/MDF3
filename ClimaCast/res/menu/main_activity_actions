@@ -1,10 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" 
  	  xmlns:climacast="http://schemas.android.com/apk/res-auto" >
+   <item android:id="@+id/action_add"
+          android:icon="@drawable/add"
+          android:title="Add Favorite"
+          android:showAsAction="always"/> 
+    
     <item android:id="@+id/action_favorites"
           android:icon="@drawable/favorite"
           android:title="Favorites"
           android:showAsAction="always"/>
+         
     <item android:id="@+id/action_about"
           android:icon="@drawable/info"
           android:title="About"/>
+    <item android:id="@+id/action_map"
+          android:icon="@drawable/info"
+          android:title="View on Map"/>      
+          
 </menu>

@@ -32,7 +32,7 @@
 
     <style name="ResultLabels">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
@@ -41,7 +41,7 @@
 
     <style name="ResultText">
         <item name="android:textColor">@android:color/holo_orange_light</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:paddingLeft">15dip</item>
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
