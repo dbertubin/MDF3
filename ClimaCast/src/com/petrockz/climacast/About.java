@@ -4,9 +4,12 @@ package com.petrockz.climacast;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -16,23 +19,27 @@ public class About extends Activity{
 	
 	
 	public class JavaScriptInterface {
-	    private About AppView;
+	    Context _context;
 	    
 
-	    public JavaScriptInterface (About about)
+	    public JavaScriptInterface (Context context)
 	    {
-	    	AppView = about;
+	    	_context = context;
 	       
 	    }
 
+	    @JavascriptInterface
 	    public void sendEmail(){
+	    	
+	    	Log.i("INTENT", "is getting hit");
 	        Intent sendIntent = new Intent(Intent.ACTION_SEND);
 	        sendIntent.setType("text/html");
-	        sendIntent.putExtra(android.content.Intent.EXTRA_TEXT,"test text");
+	        sendIntent.putExtra(android.content.Intent.EXTRA_TEXT,"Sent From ClimaCast");
 	        sendIntent.putExtra(Intent.EXTRA_SUBJECT,"Email From Climacast");
 	        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-	        startActivity(Intent.createChooser(sendIntent, "Send email..."));
+	        _context.startActivity(sendIntent);
 	    } 
+	    
 	}
 	
 	
@@ -56,16 +63,15 @@ public class About extends Activity{
 		WebView webView = (WebView) findViewById(R.id.webView);
 		webView.loadUrl("file:///android_asset/index.html");
 		webView.setWebViewClient(new ThisWebViewClient());
-		
+		webView.addJavascriptInterface(new JavaScriptInterface(this), "Native");
 		/*
 		 * Enable JavaScript
 		 ********************/
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 		
+
 		
-		JavaScriptInterface jsi = new JavaScriptInterface(this);
-		webView.addJavascriptInterface(jsi, "Android");
 		
 		
 	}
@@ -90,6 +96,7 @@ public class About extends Activity{
 			return true;
 		}
 	}
+	
 	
 	
 	
