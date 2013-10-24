@@ -277,8 +277,9 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
 .marketing {
   text-align: center;
   width: 100%;
-  padding: 30px;
+  padding:20px;
   margin-top: -15px;
+  margin-left: -20px;
   color: rgb(169, 208, 235);
   border-top: 1px solid #333;
   background-image: url('../img/use_your_illusion.png');

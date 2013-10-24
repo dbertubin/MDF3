@@ -5,14 +5,7 @@ h2
 {
 	color: #555;
 }
-
-#userComments{
-	padding: 30px;
-}
-
-
-
-#more, userCommentLabel{
+#more{
 	font: bold 1em/1.5em "Bitter", Arial, Helvetica, Geneva, sans-serif;
 	color: rgb(34, 143, 130);
 }
@@ -37,7 +30,7 @@ h2
 	color: #47A7F5;
 }
 #about{
- margin-bottom:  -25px;
+ margin-bottom:15px;
 }
 
 }
@@ -64,7 +57,7 @@ h2
 }
 .row .span7 p{
 	position: relative;
-	padding-top: 30px;
+	padding: 30px;
 }
 .social{
 	list-style: none;
