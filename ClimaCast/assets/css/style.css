@@ -1,0 +1,72 @@
+@-webkit-keyframes swing{20%,40%,60%,80%,100%{-webkit-transform-origin:top center}20%{-webkit-transform:rotate(15deg)}40%{-webkit-transform:rotate(-10deg)}60%{-webkit-transform:rotate(5deg)}80%{-webkit-transform:rotate(-5deg)}100%{-webkit-transform:rotate(0deg)}}
+@-webkit-keyframes bounce{0%,20%,50%,80%,100%{-webkit-transform:translateY(0)}40%{-webkit-transform:translateY(-30px)}60%{-webkit-transform:translateY(-15px)}}
+h1,
+h2
+{
+	color: #555;
+}
+#more{
+	font: bold 1em/1.5em "Bitter", Arial, Helvetica, Geneva, sans-serif;
+	color: rgb(34, 143, 130);
+}
+#logo:hover{
+	text-decoration: none;
+	/*-webkit-transform: rotate(60deg)!important;
+	transform: rotate(60deg);*/
+}
+#emailUs{
+	position: relative;
+	margin: 0 auto;
+	text-align: center;
+	padding: 30px;
+	margin-left: -15px;
+/*	width: 100%;*/
+}
+#logo{
+	text-align: center;
+	padding-top: 10px;
+	/*color: #1B7AE0;*/
+	/*	*/
+	color: #47A7F5;
+}
+#about{
+ margin-bottom:  -25px;
+}
+
+}
+.contact{
+	margin: 0 auto;
+	/*padding: 30px;*/
+	position: relative;
+	width: 650px;
+	text-align: center;
+}
+.contact.container{
+	position: relative;
+}
+/*label{
+	font-family: "Source Sans Pro";
+	font-weight: bold;
+	font-size: 2em;
+	color: #999;
+	text-shadow: 1px 1px 1px #555;
+	padding: 5px;
+}*/
+.footer,.marketing,.navbar-inverse{
+	background: #f5f5f5 url('../img/dark.png') repeat left top;
+}
+.row .span7 p{
+	position: relative;
+	padding: 30px;
+}
+.social{
+	list-style: none;
+}
+.social li{
+	display: inline-block;
+	vertical-align: top;
+}
+
+
+
+
