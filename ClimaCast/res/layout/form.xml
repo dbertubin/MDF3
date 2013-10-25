@@ -30,23 +30,25 @@
             <Button
                 android:id="@+id/getGps"
                 android:layout_width="104dp"
-                android:layout_height="65dp"
-                android:text="@string/location" />
+                android:layout_height="wrap_content"
+                android:text="@string/location" 
+                android:background="@drawable/blk_button"/>
         </LinearLayout>
 
         <Spinner
             android:id="@+id/spinner1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="53dp" />
 
         <Button
             android:id="@+id/startButton"
             style="@style/ButtonText"
             android:layout_width="match_parent"
-            android:layout_height="79dp"
+            android:layout_height="61dp"
             android:padding="10dip"
             android:paddingTop="20dip"
-            android:text="@string/getButtonText" />
+            android:text="@string/getButtonText" 
+            android:background="@drawable/blk_button"/>
 
     </LinearLayout>
 
@@ -57,7 +59,7 @@
         <GridLayout
             android:id="@+id/currentData"
             android:layout_width="match_parent"
-            android:layout_height="318dp"
+            android:layout_height="312dp"
             android:columnCount="2"
             android:fillViewport="true"
             android:paddingLeft="10dip"
@@ -84,8 +86,9 @@
 
             <ImageView
                 android:id="@+id/weatherDesc"
-                android:layout_width="50dp"
+                android:layout_width="70dp"
                 android:layout_height="50dp"
+               	android:paddingLeft="12dp"
                 android:contentDescription="@string/weatherdesc" />
 
             <TextView

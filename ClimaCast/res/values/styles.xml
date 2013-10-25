@@ -19,15 +19,22 @@
 
     <style name="InputText">
         <item name="android:textColor">@android:color/holo_blue_dark</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">25sp</item>
         <item name="android:inputType">number</item>
     </style>
 
     <style name="ButtonText">
-        <item name="android:textSize">20sp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">1</item>
+        <item name="android:shadowRadius">2</item>
     </style>
 
     <style name="ResultLabels">
@@ -36,7 +43,7 @@
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
-        <item name= "android:padding">10dp</item>
+        <item name="android:padding">10dp</item>
     </style>
 
     <style name="ResultText">
@@ -47,7 +54,7 @@
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
     </style>
-    
+
     <style name="DayLabels">
         <item name="android:textColor">@android:color/holo_orange_light</item>
         <item name="android:textSize">18sp</item>
@@ -56,20 +63,20 @@
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
     </style>
-    
-    <style name= "ForecastText">
-        <item name= "android:textStyle">normal</item>
-        <item name=	"android:textColor">@android:color/holo_blue_dark</item>
-        <item name= "android:textSize">18sp</item>
-        <item name= "android:padding">10dp</item>
+
+    <style name="ForecastText">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@android:color/holo_blue_dark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">10dp</item>
     </style>
-    
-    <style name= "ForecastImage">
-        <item name= "android:paddingRight">40dp</item>
+
+    <style name="ForecastImage">
+        <item name="android:paddingRight">40dp</item>
     </style>
-    
-    <style name= "WidgetText">
-        <item name= "android:textSize">30sp</item>
+
+    <style name="WidgetText">
+        <item name="android:textSize">30sp</item>
     </style>
 
 </resources>

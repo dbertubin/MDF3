@@ -258,11 +258,11 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 	 */
 	private void spinnerSelector() {
 		_selector = (Spinner)findViewById(R.id.spinner1);
-		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(_context, android.R.layout.simple_spinner_item, _options);
+		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(_context, R.layout.spinner_item, _options);
 		listAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
 		_selector.setAdapter(listAdapter);
 		_selector.setOnItemSelectedListener(new OnItemSelectedListener() {
-
+	
 			@Override	
 			public void onItemSelected(AdapterView<?> parent, View v, int pos, long id){
 				Log.i("OPTIONSELECTED", parent.getItemAtPosition(pos).toString());
